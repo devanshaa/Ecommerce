@@ -1,6 +1,6 @@
 import ErrorHander from "../utils/errorhander.js";
 import catchAsyncErrors from "../middleware/catchAsyncErrors.js";
-import { createUser, getUser, userLog, forgotPasswords, resetPass} from "../dao/userDao.js";
+import { createUser, getUser, userLog, forgotPasswords, resetPass, getUser} from "../dao/userDao.js";
 import User from '../models/userModels.js'
 
 //Registration of user
@@ -28,4 +28,10 @@ export const forgotPassword = catchAsyncErrors(async(req,res, next) =>{
 // Reset Password
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     await resetPass(req, res, next);
+});
+
+
+// Get User Detail
+export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
+    await getUser(req, res, next);
 });
