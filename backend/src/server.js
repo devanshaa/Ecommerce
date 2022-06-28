@@ -3,6 +3,7 @@ import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import usersRouter from './routes/userRoute.js';
+import orderRouter from './routes/orderRoute.js';
 import productRouter from './routes/productRoute.js';
 import errorMiddleware from './middleware/error.js';
 import { createConnection } from './config/config.js';
@@ -16,6 +17,7 @@ app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
+app.use("/orders",orderRouter);
 app.use(errorMiddleware);
 
 // catch 404 and forward to error handler

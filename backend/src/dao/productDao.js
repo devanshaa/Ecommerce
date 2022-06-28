@@ -26,4 +26,8 @@ export const updateProducts = async(id, params)=>{
 export const deleteProducts = async(param) =>{
     return await param.remove();
 }
+export const getProductById = async(param) =>{
+    return await Product.findById(param);
+}
+
 export default getProducts;

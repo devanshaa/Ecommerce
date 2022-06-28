@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "cloudinary": "^1.30.0",
     "concurrently": "^7.2.2",
     "cookie-parser": "~1.4.4",
@@ -23,6 +24,7 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.5",
     "nodemon": "^2.0.18",
     "sequelize": "^6.21.0",
     "serve": "^13.0.2"
