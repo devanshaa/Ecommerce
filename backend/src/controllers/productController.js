@@ -23,17 +23,24 @@ export const createProduct = catchAsyncErrors(async (req, res, next) => {
 
 //Get all products
 export const getAllProducts = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 5;
-  const productCount = await getCount();
+  const resultPerPage = 8;
+  const productsCount = await getCount();
   const apifeature = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
-    .pagination(resultPerPage);
-  const products = await apifeature.query;
+  const apifeature1 = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+  let products = await apifeature.query;
+  let filteredProductsCount = products.length;
+  apifeature1.pagination(resultPerPage);
+  products = await apifeature1.query;
   res.status(200).json({
     success: true,
     products,
-    productCount,
+    productsCount,
+    resultPerPage,
+    filteredProductsCount,
   });
 });
 
@@ -75,13 +82,13 @@ export const deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
 //Get a product details
 export const getProductDetail = catchAsyncErrors(async (req, res, next) => {
-  const searchProduct = await searchProducts(req.params.id);
-  if (!searchProduct) {
+  const product = await searchProducts(req.params.id);
+  if (!product) {
     return next(new ErrorHander("Product does not exists", 500));
   }
   res.status(200).json({
     success: true,
-    searchProduct,
+    product,
   });
 });
 

@@ -10,7 +10,6 @@ import { createConnection } from './config/config.js';
 var app = express();
 
 
-
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -35,7 +34,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ error: err })
 });
 
 export default app;

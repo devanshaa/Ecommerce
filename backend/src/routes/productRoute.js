@@ -32,7 +32,7 @@ router
   .route("/admin/delete/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
 
-router.route("/get/:id").get(getProductDetail);
+router.route("/product/:id").get(getProductDetail);
 
 router.route("/review").put(isAuthenticatedUser, createProductReview);
 router
