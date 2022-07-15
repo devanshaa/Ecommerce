@@ -1,33 +1,34 @@
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { useNavigate, Outlet, Route, Routes } from "react-router-dom";
 // import { useParams
 //  } from "react-router-dom";
 const ProtectedRoute = ({ isAdmin,element: Element, ...rest }) => {
-  // const {isAdmin} = useParams();
+  const navigate = useNavigate();
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   // console.log("HELLO");
-  // console.log("he is "+isAuthenticated);
+  console.log("he is "+isAdmin);
 
   return (
     <Fragment>
-    {/* {console.log("is loading "+loading)}; */}
+    {console.log(isAdmin === true && user?.role !== "admin")};
       {loading === false && (
           <Routes>
             <Route
               render={(props) => {
               // console.log(props)
+              console.log("hi");
                 if (isAuthenticated === false) {
-                  return <Navigate to="/login" />;
+                  return navigate("/login" );
                 }
-                console.log(isAdmin);
-                if (isAdmin === true && user.role !== "admin") {
-                  return <Navigate to="/login" />;
+                if (isAdmin === true && user?.role !== "admin") {
+                  return navigate("/login" );
                 }
 
                 return <Element {...props} />;
               }}
             />
+            {console.log("Ji")}
           </Routes>
       )}
       <Outlet/>

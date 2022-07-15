@@ -66,7 +66,7 @@ export const processPayment = catchAsyncErrors(async (req, res, next) => {
     },
   });
   // myPayment = await stripe.paymentIntents.confirm(`${myPayment.id}`);
-  console.log('myPayment:', myPayment)
+  // console.log('myPayment:', myPayment)
 
   res
     .status(200)

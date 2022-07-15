@@ -64,7 +64,7 @@ export const getAllOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
-    const { data } = await axios.get("/orders/admin/orders");
+    const { data } = await axios.get("/api/v1/admin/orders");
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -86,7 +86,7 @@ export const updateOrder = (id, order) => async (dispatch) => {
       },
     };
     const { data } = await axios.put(
-      `/orders/admin/order/${id}`,
+      `/api/v1/admin/order/${id}`,
       order,
       config
     );
@@ -105,7 +105,7 @@ export const deleteOrder = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ORDER_REQUEST });
 
-    const { data } = await axios.delete(`/orders/admin/order/${id}`);
+    const { data } = await axios.delete(`/api/v1/admin/order/${id}`);
 
     dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {

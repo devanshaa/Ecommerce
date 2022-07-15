@@ -37,6 +37,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Dashboard from "./component/Admin/Dashboard.js";
 import ProductList from "./component/Admin/ProductList.js";
+import NewProduct from "./component/Admin/NewProduct.js";
 import OrderList from "./component/Admin/OrderList.js";
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -134,12 +135,16 @@ const App = () => {
         <Route path="/admin/dashboard/*" element={<ProtectedRoute isAdmin={true}/>}>
           <Route path="/admin/dashboard/*" element={<Dashboard />} />
         </Route>
-{/* 
+
         <Route path="/admin/products/*" element={<ProtectedRoute isAdmin={true} />}>
           <Route path="/admin/products/*" element={<ProductList />} />
         </Route>
 
-        <Route path="/admin/orders/*" element={<ProtectedRoute isAdmin={true} />}>
+        <Route path="/admin/product/*" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/product/*" element={<NewProduct />} />
+        </Route>
+
+        {/* <Route path="/admin/orders/*" element={<ProtectedRoute isAdmin={true} />}>
           <Route path="/admin/orders/*" element={<OrderList />} />
         </Route> */}
 

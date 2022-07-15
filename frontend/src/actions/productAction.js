@@ -69,7 +69,7 @@ export const createProduct = (productData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `/products/admin/product/new`,
+      `/products/admin/new`,
       productData,
       config
     );
@@ -96,7 +96,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     };
 
     const { data } = await axios.put(
-      `/products/admin/product/${id}`,
+      `/products/admin/${id}`,
       productData,
       config
     );
@@ -118,7 +118,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-    const { data } = await axios.delete(`/products/admin/product/${id}`);
+    const { data } = await axios.delete(`/products/admin/delete/${id}`);
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,
@@ -139,7 +139,7 @@ export const getAdminProduct = () => async (dispatch) => {
     dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
     const { data } = await axios.get("/products/admin/products");
-
+    console.log(data);
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
       payload: data.products,
