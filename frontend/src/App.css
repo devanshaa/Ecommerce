@@ -12,13 +12,13 @@ input[type="number"]{
   -moz-appearance: textfield;
 }
 .greenColor{
-  color: green;
+  color: green !important;
 }
 
 .redColor{
-  color:red;
+  color:red !important;
 }
-/* .App {
+.App {
   text-align: center;
 }
 
@@ -55,4 +55,4 @@ input[type="number"]{
   to {
     transform: rotate(360deg);
   }
-} */
+}

@@ -4,8 +4,21 @@ import { Link } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
+import {useDispatch, useSelector} from "react-redux";
+import { login, clearErrors, register } from "../../actions/userAction.js";
+import {useAlert} from "react-alert";
+import { useEffect } from "react";
+import Loader from "../layout/Loader/Loader.js";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const LoginSignUp = () => {
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const history = useNavigate();
+  const location = useLocation();
+
+  const {error,loading, isAuthenticated} = useSelector((state) => state.user);
+
   const loginTab = useRef(null);
   const registerTab = useRef(null);
   const switcherTab = useRef(null);
@@ -21,12 +34,12 @@ const LoginSignUp = () => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("/Profile.png");
+  const [avatar, setAvatar] = useState();
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    console.log("Login form submitted");
+    dispatch(login(loginEmail,loginPassword));
   };
 
   const registerSubmit = (e) => {
@@ -34,13 +47,16 @@ const LoginSignUp = () => {
 
     const myForm = new FormData();
 
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
-    console.log("Register form submitted.");
+    myForm.append("name", name);
+    myForm.append("email", email);
+    myForm.append("password", password);
+    myForm.append("avatar", avatar);
+    // for (const value of myForm.values()) {
+    //   console.log(value);
+    // }
+    dispatch(register(myForm));
   };
-
+  
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
       const reader = new FileReader();
@@ -51,12 +67,29 @@ const LoginSignUp = () => {
           setAvatar(reader.result);
         }
       };
-
+      
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
+
+  const redirect = location.search ? location.search.split("=")[1] : "/account";
+  // console.log(redirect);
+  // console.log(location?.search);
+  useEffect(() => {
+    if(error){
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    if(isAuthenticated){
+      history(redirect);
+    }
+  }, [dispatch, error, alert,history,redirect, isAuthenticated])
+  
+
+
+
   const switchTabs = (e, tab) => {
     if (tab === "login") {
       switcherTab.current.classList.add("shiftToNeutral");
@@ -76,6 +109,7 @@ const LoginSignUp = () => {
 
   return (
     <Fragment>
+      {loading ? <Loader/> : <Fragment>
       <div className="LoginSignUpContainer">
         <div className="LoginSignUpBox">
           <div>
@@ -162,6 +196,7 @@ const LoginSignUp = () => {
           </form>
         </div>
       </div>
+    </Fragment>}
     </Fragment>
   );
 };

@@ -13,10 +13,10 @@ import {
   updateRole,
   delUser,
 } from "../dao/userDao.js";
-
 //Registration of user
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
-  await createUser(req, res, next);
+  
+  await createUser(req, res,next);
 });
 
 //Login of user

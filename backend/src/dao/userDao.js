@@ -3,19 +3,32 @@ import ErrorHander from "../utils/errorhander.js";
 import sendToken from "../utils/jwtToken.js";
 import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto";
+import cloudinary from "cloudinary";
 
 export const createUser = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  const user = await User.create({
-    name,
-    email,
-    password,
-    avatar: {
-      public_id: "This is a sample id",
-      url: "profileUrl",
-    },
-  });
-  sendToken(user, 200, res);
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
+  try {
+    const { name, email, password } = req.body;
+    const result = await cloudinary.uploader.upload(req.body.avatar, options);
+    // console.log(result);
+    // console.log(req.body.avatar[public_id]);
+    const user = await User.create({
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+    });
+    sendToken(user, 200, res);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getUser = async (req, res, next) => {
@@ -65,11 +78,13 @@ export const forgotPasswords = async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false });
 
-  const resetPasswordUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/users/password/reset/${resetToken}`;
+  // const resetPasswordUrl = `${req.protocol}://${req.get(
+  //   "host"
+  // )}/users/password/reset/${resetToken}`;
+  
+  const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
-  const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+  const message = `Your password reset token is this :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
 
   try {
     await sendEmail({
@@ -156,30 +171,30 @@ export const updatePro = async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
+  /* console.log(req.body.avatar); */
+  if (req.body.avatar !== "" ) {
+    const user = await User.findById(req.user.id);
 
-  // if (req.body.avatar !== "") {
-  //   const user = await User.findById(req.user.id);
+    const imageId = user?.avatar?.public_id;
 
-  //   const imageId = user.avatar.public_id;
+    await cloudinary.v2.uploader.destroy(imageId);
 
-  //   await cloudinary.v2.uploader.destroy(imageId);
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+    });
 
-  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //     folder: "avatars",
-  //     width: 150,
-  //     crop: "scale",
-  //   });
-
-  //   newUserData.avatar = {
-  //     public_id: myCloud.public_id,
-  //     url: myCloud.secure_url,
-  //   };
-  // }
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
-    useFindAndModify: false,
+    // useFindAndModify: false,
   });
 
   res.status(200).json({

@@ -21,7 +21,7 @@ const categories = [
   "SmartPhones",
 ];
 
-const Products = () => {
+export const Products = () => {
   const { keyword } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();

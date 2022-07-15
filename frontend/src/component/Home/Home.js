@@ -13,6 +13,12 @@ const Home = () => {
   const dispatch = useDispatch();
   const { loading, error, products } = useSelector((state) => state.products);
 
+  
+  // useEffect(()=>{
+  //   console.log("getProduct...........",getProduct)
+    
+  // },[dispatch])
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -43,8 +49,12 @@ const Home = () => {
           <h2 className="homeHeading">Featured Products</h2>
 
           <div className="container" id="container">
+
+              {/* {console.log('products:', products)} */}
             {products &&
-              products.map((product) => <ProductCard key={product._id} product={product} />)}
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
           </div>
         </Fragment>
       )}
