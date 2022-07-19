@@ -13,15 +13,18 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import SideBar from "./Sidebar";
-import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
+import SideBar from "./Sidebar.js";
+import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants.js";
+import { useParams, useNavigate } from "react-router-dom";
 
-const UpdateProduct = ({ history, match }) => {
+const UpdateProduct = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const history = useNavigate();
+  const {id} = useParams();
 
   const { error, product } = useSelector((state) => state.productDetails);
-
+  // console.log('product:', product)
   const {
     loading,
     error: updateError,
@@ -47,18 +50,19 @@ const UpdateProduct = ({ history, match }) => {
     "SmartPhones",
   ];
 
-  const productId = match.params.id;
+  const productId = id;
 
   useEffect(() => {
+    console.log(product)
     if (product && product._id !== productId) {
       dispatch(getProductDetails(productId));
     } else {
-      setName(product.name);
-      setDescription(product.description);
-      setPrice(product.price);
-      setCategory(product.category);
-      setStock(product.Stock);
-      setOldImages(product.images);
+      setName(product?.name);
+      setDescription(product?.description);
+      setPrice(product?.price);
+      setCategory(product?.category);
+      setStock(product?.Stock);
+      setOldImages(product?.images);
     }
     if (error) {
       alert.error(error);
@@ -72,7 +76,7 @@ const UpdateProduct = ({ history, match }) => {
 
     if (isUpdated) {
       alert.success("Product Updated Successfully");
-      history.push("/admin/products");
+      history("/admin/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
   }, [

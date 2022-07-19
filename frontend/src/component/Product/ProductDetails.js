@@ -63,6 +63,7 @@ export const ProductDetails = () => {
   };
 
   const addToCartHandler = () => {
+    // console.log(id,quantity);
     dispatch(addItemsToCart(id, quantity));
     alert.success("Item Added To Cart");
   };

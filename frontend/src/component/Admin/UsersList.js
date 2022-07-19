@@ -9,12 +9,13 @@ import MetaData from "../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
-import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction";
-import { DELETE_USER_RESET } from "../../constants/userConstants";
+import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction.js";
+import { DELETE_USER_RESET } from "../../constants/userConstants.js";
+import { useNavigate } from "react-router-dom";
 
-const UsersList = ({ history }) => {
+const UsersList = () => {
   const dispatch = useDispatch();
-
+  const history = useNavigate();
   const alert = useAlert();
 
   const { error, users } = useSelector((state) => state.allUsers);
@@ -42,7 +43,7 @@ const UsersList = ({ history }) => {
 
     if (isDeleted) {
       alert.success(message);
-      history.push("/admin/users");
+      history("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }
 
@@ -130,6 +131,7 @@ const UsersList = ({ history }) => {
             rows={rows}
             columns={columns}
             pageSize={10}
+            rowsPerPageOptions={[10]}
             disableSelectionOnClick
             className="productListTable"
             autoHeight

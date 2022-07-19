@@ -96,7 +96,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     };
 
     const { data } = await axios.put(
-      `/products/admin/${id}`,
+      `/products/admin/update/${id}`,
       productData,
       config
     );
@@ -139,7 +139,7 @@ export const getAdminProduct = () => async (dispatch) => {
     dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
     const { data } = await axios.get("/products/admin/products");
-    console.log(data);
+    // console.log(data);
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
       payload: data.products,
@@ -198,7 +198,7 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await axios.get(`/products/reviews?id=${id}`);
+    const { data } = await axios.get(`/products/review?id=${id}`);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,

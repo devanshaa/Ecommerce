@@ -7,17 +7,17 @@ const ProtectedRoute = ({ isAdmin,element: Element, ...rest }) => {
   const navigate = useNavigate();
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   // console.log("HELLO");
-  console.log("he is "+isAdmin);
+  // console.log("he is "+isAdmin);
 
   return (
     <Fragment>
-    {console.log(isAdmin === true && user?.role !== "admin")};
+    {/* {console.log(isAdmin === true && user?.role !== "admin")}; */}
       {loading === false && (
           <Routes>
             <Route
               render={(props) => {
               // console.log(props)
-              console.log("hi");
+              // console.log("hi");
                 if (isAuthenticated === false) {
                   return navigate("/login" );
                 }
@@ -28,7 +28,7 @@ const ProtectedRoute = ({ isAdmin,element: Element, ...rest }) => {
                 return <Element {...props} />;
               }}
             />
-            {console.log("Ji")}
+            {/* {console.log("Ji")} */}
           </Routes>
       )}
       <Outlet/>

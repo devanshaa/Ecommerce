@@ -12,6 +12,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
+  // console.log('cartItems:', cartItems)
 
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -39,7 +40,7 @@ const Cart = () => {
 
   return (
     <Fragment>
-      {cartItems.length === 0 ? (
+      {cartItems?.length === 0 ? (
         <div className="emptyCart">
           <RemoveShoppingCartIcon />
 
@@ -57,17 +58,17 @@ const Cart = () => {
 
             {cartItems &&
               cartItems.map((item) => (
-                <div className="cartContainer" key={item.product}>
+                <div className="cartContainer" key={item?.product}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
                     <button
                       onClick={() =>
-                        decreaseQuantity(item.product, item.quantity)
+                        decreaseQuantity(item?.product, item?.quantity)
                       }
                     >
                       -
                     </button>
-                    <input type="number" value={item.quantity} readOnly />
+                    <input type="number" value={item?.quantity} readOnly />
                     <button
                       onClick={() =>
                         increaseQuantity(
@@ -81,7 +82,7 @@ const Cart = () => {
                     </button>
                   </div>
                   <p className="cartSubtotal">{`₹${
-                    item.price * item.quantity
+                    item?.price * item?.quantity
                   }`}</p>
                 </div>
               ))}
@@ -90,8 +91,8 @@ const Cart = () => {
               <div></div>
               <div className="cartGrossProfitBox">
                 <p>Gross Total</p>
-                <p>{`₹${cartItems.reduce(
-                  (acc, item) => acc + item.quantity * item.price,
+                <p>{`₹${cartItems?.reduce(
+                  (acc, item) => acc + item?.quantity * item?.price,
                   0
                 )}`}</p>
               </div>

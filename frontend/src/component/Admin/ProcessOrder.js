@@ -64,7 +64,7 @@ const ProcessOrder = () => {
             <div
               className="confirmOrderPage"
               style={{
-                display: order.orderStatus === "Delivered" ? "block" : "grid",
+                display: order?.orderStatus === "Delivered" ? "block" : "grid",
               }}
             >
               <div>
@@ -73,19 +73,19 @@ const ProcessOrder = () => {
                   <div className="orderDetailsContainerBox">
                     <div>
                       <p>Name:</p>
-                      <span>{order.user && order.user.name}</span>
+                      <span>{order?.user && order?.user.name}</span>
                     </div>
                     <div>
                       <p>Phone:</p>
                       <span>
-                        {order.shippingInfo && order.shippingInfo.phoneNo}
+                        {order?.shippingInfo && order?.shippingInfo.phoneNo}
                       </span>
                     </div>
                     <div>
                       <p>Address:</p>
                       <span>
-                        {order.shippingInfo &&
-                          `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.state}, ${order.shippingInfo.pinCode}, ${order.shippingInfo.country}`}
+                        {order?.shippingInfo &&
+                          `${order?.shippingInfo.address}, ${order?.shippingInfo.city}, ${order?.shippingInfo.state}, ${order?.shippingInfo.pinCode}, ${order?.shippingInfo.country}`}
                       </span>
                     </div>
                   </div>
@@ -95,14 +95,14 @@ const ProcessOrder = () => {
                     <div>
                       <p
                         className={
-                          order.paymentInfo &&
-                          order.paymentInfo.status === "succeeded"
+                          order?.paymentInfo &&
+                          order?.paymentInfo.status === "succeeded"
                             ? "greenColor"
                             : "redColor"
                         }
                       >
-                        {order.paymentInfo &&
-                        order.paymentInfo.status === "succeeded"
+                        {order?.paymentInfo &&
+                        order?.paymentInfo.status === "succeeded"
                           ? "PAID"
                           : "NOT PAID"}
                       </p>
@@ -110,7 +110,7 @@ const ProcessOrder = () => {
 
                     <div>
                       <p>Amount:</p>
-                      <span>{order.totalPrice && order.totalPrice}</span>
+                      <span>{order?.totalPrice && order?.totalPrice}</span>
                     </div>
                   </div>
 
@@ -119,12 +119,12 @@ const ProcessOrder = () => {
                     <div>
                       <p
                         className={
-                          order.orderStatus && order.orderStatus === "Delivered"
+                          order?.orderStatus && order?.orderStatus === "Delivered"
                             ? "greenColor"
                             : "redColor"
                         }
                       >
-                        {order.orderStatus && order.orderStatus}
+                        {order?.orderStatus && order?.orderStatus}
                       </p>
                     </div>
                   </div>
@@ -132,8 +132,8 @@ const ProcessOrder = () => {
                 <div className="confirmCartItems">
                   <Typography>Your Cart Items:</Typography>
                   <div className="confirmCartItemsContainer">
-                    {order.orderItems &&
-                      order.orderItems.map((item) => (
+                    {order?.orderItems &&
+                      order?.orderItems.map((item) => (
                         <div key={item.product}>
                           <img src={item.image} alt="Product" />
                           <Link to={`/product/${item.product}`}>
@@ -151,7 +151,7 @@ const ProcessOrder = () => {
               {/*  */}
               <div
                 style={{
-                  display: order.orderStatus === "Delivered" ? "none" : "block",
+                  display: order?.orderStatus === "Delivered" ? "none" : "block",
                 }}
               >
                 <form
@@ -164,11 +164,11 @@ const ProcessOrder = () => {
                     <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value="">Choose Category</option>
-                      {order.orderStatus === "Processing" && (
+                      {order?.orderStatus === "Processing" && (
                         <option value="Shipped">Shipped</option>
                       )}
 
-                      {order.orderStatus === "Shipped" && (
+                      {order?.orderStatus === "Shipped" && (
                         <option value="Delivered">Delivered</option>
                       )}
                     </select>

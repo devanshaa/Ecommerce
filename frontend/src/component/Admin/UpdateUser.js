@@ -7,18 +7,20 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PersonIcon from "@material-ui/icons/Person";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import SideBar from "./Sidebar";
-import { UPDATE_USER_RESET } from "../../constants/userConstants";
+import { UPDATE_USER_RESET } from "../../constants/userConstants.js";
 import {
   getUserDetails,
   updateUser,
   clearErrors,
 } from "../../actions/userAction";
 import Loader from "../layout/Loader/Loader";
+import { useNavigate, useParams } from "react-router-dom";
 
-const UpdateUser = ({ history, match }) => {
+const UpdateUser = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
-
+  const {id} = useParams();
+  const history = useNavigate();
   const { loading, error, user } = useSelector((state) => state.userDetails);
 
   const {
@@ -31,7 +33,7 @@ const UpdateUser = ({ history, match }) => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
-  const userId = match.params.id;
+  const userId = id;
 
   useEffect(() => {
     if (user && user._id !== userId) {
@@ -53,7 +55,7 @@ const UpdateUser = ({ history, match }) => {
 
     if (isUpdated) {
       alert.success("User Updated Successfully");
-      history.push("/admin/users");
+      history("/admin/users");
       dispatch({ type: UPDATE_USER_RESET });
     }
   }, [dispatch, alert, error, history, isUpdated, updateError, user, userId]);
