@@ -46,6 +46,7 @@ import UpdateUser from "./component/Admin/UpdateUser.js";
 import ProductReviews from "./component/Admin/ProductReviews.js";
 import About from "./component/layout/About/About";
 import Contact from "./component/layout/Contact/Contact";
+import NotFound from "./component/layout/Not Found/NotFound.js";
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -110,7 +111,14 @@ const App = () => {
 
         <Route exact path="/cart" element={<Cart />} />
 
-        <Route path="/login/shipping/*" element={<ProtectedRoute><Shipping/></ProtectedRoute>}>
+        <Route
+          path="/login/shipping/*"
+          element={
+            <ProtectedRoute>
+              <Shipping />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/login/shipping/*" element={<Shipping />} />
         </Route>
 
@@ -134,7 +142,6 @@ const App = () => {
               element={
                 <Elements stripe={loadStripe(stripeApiKey)}>
                   <Payment />
-                  {/* {console.log("stripeApiKey1:", stripeApiKey)} */}
                 </Elements>
               }
             ></Route>
@@ -145,82 +152,75 @@ const App = () => {
           <Route path="/success/*" element={<OrderSuccess />} />
         </Route>
 
-        <Route path="/admin/dashboard/*" element={<ProtectedRoute isAdmin={true}/>}>
+        <Route
+          path="/admin/dashboard/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
           <Route path="/admin/dashboard/*" element={<Dashboard />} />
         </Route>
 
-        <Route path="/admin/products/*" element={<ProtectedRoute isAdmin={true} />}>
+        <Route
+          path="/admin/products/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
           <Route path="/admin/products/*" element={<ProductList />} />
         </Route>
 
-        <Route path="/admin/product/*" element={<ProtectedRoute isAdmin={true} />}>
+        <Route
+          path="/admin/product/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
           <Route path="/admin/product/*" element={<NewProduct />} />
         </Route>
 
-        <Route path="/admin/product/:id/*" element={<ProtectedRoute isAdmin={true} />}>
+        <Route
+          path="/admin/product/:id/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
           <Route path="/admin/product/:id/*" element={<UpdateProduct />} />
         </Route>
 
-        <Route path="/admin/orders/*" element={<ProtectedRoute isAdmin={true} />}>
+        <Route
+          path="/admin/orders/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
           <Route path="/admin/orders/*" element={<OrderList />} />
         </Route>
 
-        <Route path="/admin/order/:id/*" element={<ProtectedRoute isAdmin={true} />}>
+        <Route
+          path="/admin/order/:id/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
           <Route path="/admin/order/:id/*" element={<ProcessOrder />} />
         </Route>
-
-        <Route path="/admin/users/*" element={<ProtectedRoute isAdmin={true} />}>
-          <Route path="/admin/users/*" element={<UserList />} />
-        </Route>
-        
-        <Route path="/admin/user/:id/*" element={<ProtectedRoute isAdmin={true} />}>
-          <Route path="/admin/user/:id/*" element={<UpdateUser />} />
-        </Route>
-        
-        <Route path="/admin/reviews/*" element={<ProtectedRoute isAdmin={true} />}>
-          <Route path="/admin/reviews/*" element={<ProductReviews />} />
-        </Route>
-        {/* <Route path="/admin/order/:id/*" element={<ProtectedRoute isAdmin={true} />}>
-          <Route path="/admin/order/:id/*" element={<ProcessOrder />} />
-        </Route> */}
-{/* 
-
-        
-
-
-
-        <ProtectedRoute
-          exact
-          path="/admin/users"
-          isAdmin={true}
-          component={UsersList}
-        />
-
-        <ProtectedRoute
-          exact
-          path="/admin/user/:id"
-          isAdmin={true}
-          component={UpdateUser}
-        />
-
-        <ProtectedRoute
-          exact
-          path="/admin/reviews"
-          isAdmin={true}
-          component={ProductReviews}
-        />
 
         <Route
-          component={
-            window.location.pathname === "/process/payment" ? null : NotFound
-          }
-        /> */}
+          path="/admin/users/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
+          <Route path="/admin/users/*" element={<UserList />} />
+        </Route>
 
+        <Route
+          path="/admin/user/:id/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
+          <Route path="/admin/user/:id/*" element={<UpdateUser />} />
+        </Route>
+
+        <Route
+          path="/admin/reviews/*"
+          element={<ProtectedRoute isAdmin={true} />}
+        >
+          <Route path="/admin/reviews/*" element={<ProductReviews />} />
+        </Route>
+
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
 
       <Footer />
     </Router>
   );
-}
+};
 
 export default App;

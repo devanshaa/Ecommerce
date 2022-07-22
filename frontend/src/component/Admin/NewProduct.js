@@ -65,6 +65,11 @@ const NewProduct = () => {
     images.forEach((image) => {
       myForm.append("images", image);
     });
+    // for (const [key, value] of myForm) {
+    //   console.log(`${key}: ${value}`);
+    // }
+    // console.log('myForm:', myForm.values());
+    
     dispatch(createProduct(myForm));
   };
 
